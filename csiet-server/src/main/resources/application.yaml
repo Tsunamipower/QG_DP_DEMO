@@ -1,0 +1,62 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  data:
+    redis:
+      host: ${jason.redis.host}
+      port: ${jason.redis.port}
+      password: ${jason.redis.password}
+      database: ${jason.redis.database}
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+    driver-class-name: ${jason.datasource.driver-class-name}
+    url: jdbc:mysql://${jason.datasource.host}:${jason.datasource.port}/${jason.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${jason.datasource.username}
+    password: ${jason.datasource.password}
+
+logging:
+  level:
+    com:
+      jasonchow:
+        mapper: debug
+        service: info
+        controller: info
+
+# mybatis-plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 控制台 sql日志
+  type-aliases-package: com.jasonchow.entity
+  global-config:
+    db-config:
+      id-type: auto # 主键策略自增长
+      #logic-delete-field: isDeleted # 逻辑删除
+  mapper-locations: classpath:/mapper/*.xml
+
+# jwt 配置
+jason:
+  jwt:
+    secret-key: jasoncsiet
+    ttl: 72000000
+    token-name: token
+
+# 配置springdoc-openapi，用于文档化和访问API
+springdoc:
+  # 配置Swagger UI的访问路径和排序方式
+  swagger-ui:
+    path: /swagger-ui.html  # Swagger UI的访问路径
+    tags-sorter: alpha      # 按字母顺序排序标签
+    operations-sorter: alpha  # 按字母顺序排序操作
+  # 配置API文档的访问路径
+  api-docs:
+    path: /v3/api-docs  # API文档的访问路径
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
